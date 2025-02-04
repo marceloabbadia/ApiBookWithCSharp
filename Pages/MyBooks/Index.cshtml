@@ -1,0 +1,72 @@
+﻿@page
+@model BookStore.App.Pages.MyBooks.IndexModel
+
+@{
+	ViewData["Title"] = "Index";
+	var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+<h1>Index</h1>
+
+<p>
+	<a asp-page="Create" class="btn btn-primary">Create New</a>
+</p>
+<table class="table">
+	<thead>
+		<tr>
+			<th>
+				Titulo
+			</th>
+			<th>
+				Email
+			</th>
+			
+			<th>
+				Isbn
+			</th>
+			<th>
+				Categoria
+			</th>
+			
+			<th>Editar</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var item in Model.Books)
+		{
+			<tr>
+				<td>
+					@Html.DisplayFor(modelItem => item.Title)
+				</td>
+				<td>
+					 @item.UserEmail
+				</td>
+				
+				<td>
+					@Html.DisplayFor(modelItem => item.Isbn)
+				</td>
+				<td>
+					@Html.DisplayFor(modelItem => item.Category)
+				</td>
+				
+
+				@if (item.UserId == userId)
+				{
+					<td>
+						<a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+						<a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+						<a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+					</td>
+				}
+				else
+				{
+					<td>
+						<a asp-page="./Details" asp-route-id="@item.Id">Details</a>
+					</td>
+				}
+				
+			</tr >
+		}
+		
+	</tbody>
+</table>
